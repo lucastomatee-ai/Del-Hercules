@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Alpha Method - Teste Gratuito</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #ef4444; --bg: #050505; --card: #111111; --text: #ffffff; --green: #22c55e; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        
+        .container { width: 100%; max-width: 500px; }
+        
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeIn 0.3s; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .card { background: var(--card); border: 1px solid #262626; border-radius: 20px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        
+        .badge { display: inline-block; background: rgba(239, 68, 68, 0.15); border: 1px solid var(--primary); color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        
+        .headline { font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 15px; line-height: 1.2; }
+        
+        .subheadline { font-size: 15px; color: #999; margin-bottom: 25px; line-height: 1.4; }
+        
+        .stats-row { display: flex; gap: 10px; margin-bottom: 25px; }
+        .stat-box { flex: 1; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 12px; border-radius: 10px; text-align: center; }
+        .stat-number { font-size: 18px; font-weight: 900; color: var(--green); }
+        .stat-label { font-size: 10px; color: #999; text-transform: uppercase; margin-top: 4px; }
+        
+        .urgency-box { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--primary); padding: 12px; border-radius: 10px; text-align: center; margin-bottom: 20px; font-size: 13px; font-weight: 700; color: var(--primary); }
+        
+        .btn { background: var(--primary); color: white; border: none; padding: 20px; border-radius: 14px; font-weight: 900; cursor: pointer; width: 100%; font-size: 18px; text-transform: uppercase; transition: all 0.3s; box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3); }
+        .btn:hover { transform: scale(1.02); }
+        
+        .progress-bar-container { margin-bottom: 25px; }
+        .progress-text { font-size: 12px; font-weight: 900; color: var(--primary); margin-bottom: 8px; text-align: right; }
+        .progress-bar { height: 6px; background: #262626; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
+        
+        .question { font-size: 20px; font-weight: 900; margin-bottom: 20px; line-height: 1.3; }
+        
+        .privacy-note { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 12px; border-radius: 10px; margin-bottom: 20px; font-size: 12px; text-align: center; color: var(--green); font-weight: 700; }
+        
+        .options { display: grid; gap: 12px; }
+        .option-btn { background: rgba(255, 255, 255, 0.05); border: 2px solid #262626; color: var(--text); padding: 18px; border-radius: 12px; cursor: pointer; font-weight: 700; transition: all 0.2s; font-size: 16px; text-align: left; }
+        .option-btn:hover { border-color: var(--primary); background: rgba(239, 68, 68, 0.1); transform: translateX(5px); }
+        
+        .analysis-bar { margin-bottom: 15px; }
+        .analysis-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; font-weight: 700; }
+        .bar-container { height: 10px; background: #222; border-radius: 5px; overflow: hidden; }
+        .bar-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.5s ease; }
+        .bar-fill.complete { background: var(--green); }
+        
+        .testimonial-box { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 15px; margin: 20px 0; }
+        .testimonial-title { font-size: 12px; font-weight: 900; color: var(--green); text-transform: uppercase; margin-bottom: 10px; }
+        
+        .video-container { position: relative; background: #000; border-radius: 16px; overflow: hidden; margin-bottom: 20px; border: 1px solid #262626; }
+        
+        .result-box { background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(34, 197, 94, 0.05) 100%); border: 2px solid var(--green); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; animation: pulse 2s infinite; }
+        
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); } 50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.6); } }
+        
+        .result-number { font-size: 56px; font-weight: 900; color: var(--green); margin: 15px 0; text-shadow: 0 0 30px rgba(34, 197, 94, 0.6); }
+        
+        .result-label { font-size: 14px; color: #ccc; text-transform: uppercase; font-weight: 700; }
+        
+        .benefit { display: flex; align-items: center; margin-bottom: 15px; font-size: 16px; font-weight: 800; }
+        .benefit span { color: var(--green); margin-right: 12px; font-size: 20px; }
+        
+        .price-box { background: rgba(239, 68, 68, 0.1); border: 2px solid var(--primary); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; }
+        .old-price { font-size: 18px; color: #999; text-decoration: line-through; }
+        .new-price { font-size: 48px; font-weight: 900; color: var(--green); margin: 10px 0; }
+        .economy { font-size: 14px; color: var(--green); font-weight: 700; margin-top: 5px; }
+        .comparison { font-size: 13px; color: #999; margin-top: 10px; }
+        
+        .guarantee { background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); padding: 15px; border-radius: 12px; text-align: center; margin: 20px 0; font-weight: 700; color: var(--green); }
+        
+        .social-proof { background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 12px; margin: 20px 0; font-size: 13px; line-height: 1.6; }
+        
+        .testimonials-carousel { position: relative; height: 60px; overflow: hidden; margin: 20px 0; }
+        .testimonial-slide { position: absolute; width: 100%; text-align: center; opacity: 0; transition: opacity 0.8s ease; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; }
+        .testimonial-slide.active { opacity: 1; }
+        .testimonial-quote { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+        .testimonial-author { font-size: 12px; color: #999; }
+        
+        .security-footer { font-size: 11px; margin-top: 15px; color: #999; font-weight: 700; text-align: center; }
+        
+        /* Carrossel Antes/Depois - VERSÃO 1: MODAL */
+        .carousel-container { background: rgba(0, 255, 0, 0.05); border: 2px solid rgba(0, 255, 0, 0.3); border-radius: 16px; padding: 25px; margin: 25px 0; }
+        .carousel-title { color: #00ff00; font-size: 16px; font-weight: 900; text-align: center; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
+        .carousel { width: 100%; height: 280px; background: #000; border-radius: 15px; overflow: hidden; position: relative; border: 2px solid #333; }
+        .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s ease; display: flex; align-items: center; justify-content: center; }
+        .slide.active { opacity: 1; }
+        
+        .blurred-container { position: relative; width: 100%; height: 100%; cursor: pointer; overflow: hidden; }
+        .blurred-container img { width: 100%; height: 100%; object-fit: contain; filter: blur(20px); transition: all 0.3s; }
+        .blurred-container:hover img { filter: blur(15px); transform: scale(1.05); }
+        
+        .click-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); transition: opacity 0.3s ease; }
+        .blurred-container:hover .click-overlay { background: rgba(0, 0, 0, 0.7); }
+        
+        .click-icon { font-size: 48px; margin-bottom: 10px; animation: pulseIcon 2s infinite; }
+        @keyframes pulseIcon { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; } }
+        
+        .click-text { color: #00ff00; font-size: 16px; font-weight: 900; text-transform: uppercase; text-align: center; text-shadow: 0 0 10px rgba(0, 255, 0, 0.5); letter-spacing: 1px; }
+        
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        
+        .slide-caption { position: absolute; bottom: 15px; left: 15px; right: 15px; background: rgba(0, 0, 0, 0.9); padding: 12px; border-radius: 10px; font-size: 13px; font-weight: 900; color: #00ff00; border: 2px solid rgba(0, 255, 0, 0.5); text-align: center; z-index: 10; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        /* Modal */
+        .image-modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); }
+        .image-modal.active { display: flex; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .modal-content { max-width: 600px; width: 100%; background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); border: 3px solid #00ff00; border-radius: 16px; padding: 25px; position: relative; animation: slideUp 0.4s; box-shadow: 0 0 50px rgba(0, 255, 0, 0.5); }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .modal-close { position: absolute; top: 10px; right: 20px; font-size: 40px; color: #fff; cursor: pointer; z-index: 10; line-height: 1; transition: all 0.3s; }
+        .modal-close:hover { color: #ff3333; transform: rotate(90deg); }
+        
+        .modal-image { width: 100%; border-radius: 12px; margin-bottom: 15px; border: 2px solid #333; }
+        
+        .modal-info { text-align: center; color: #fff; font-size: 14px; line-height: 1.8; padding: 15px; background: rgba(0, 255, 0, 0.05); border-radius: 10px; border: 1px solid rgba(0, 255, 0, 0.3); }
+        .modal-info strong { color: #00ff00; font-size: 16px; display: block; margin-bottom: 8px; }
+        .modal-verified { display: inline-block; background: #00ff00; color: #000; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 900; margin-top: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- TELA 1: GANCHO DIRETO (SEM VSL) -->
+        <div id="screen-1" class="screen active">
+            <div class="card">
+                <div class="badge" style="display: block; text-align: center;">⚡ MÉTODO VALIDADO POR +50 MIL HOMBRES</div>
+                
+                <h1 class="headline" style="text-align: center;">Descubre Cuántos CM Puedes Aumentar en 30 Días</h1>
+                
+                <p class="subheadline" style="text-align: center;">Prueba rápida basada en ciencia. 100% confidencial.</p>
+                
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Lo Probaron</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">4.9★</div>
+                        <div class="stat-label">Calificación</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$3.99 USD</div>
+                        <div class="stat-label">Solo Hoy</div>
+                    </div>
+                </div>
+                
+                <div class="privacy-note">
+                    🔒 TOTALMENTE CONFIDENCIAL - Tus respuestas son 100% anónimas
+                </div>
+                
+                <div class="urgency-box">
+                    🔥 1.247 homens fizeram este teste nas últimas 24 horas
+                </div>
+                
+                <button class="btn" onclick="startQuiz()">⚡ DESCUBRIR MI POTENCIAL AHORA</button>
+            </div>
+        </div>
+
+        <!-- TELA 2: QUIZ (8 PERGUNTAS) -->
+        <div id="screen-2" class="screen">
+            <div class="card">
+                <div class="badge">🔒 100% CONFIDENCIAL</div>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-text" id="progress-text">13% COMPLETO</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+                
+                <div id="quiz-content"></div>
+            </div>
+        </div>
+
+        <!-- TELA 3: ANÁLISE (SEM VÍDEO - OTIMIZADO LATAM) -->
+        <div id="screen-3" class="screen">
+            <div class="card">
+                <div class="badge">🔬 Procesando tus datos</div>
+                
+                <h2 class="headline">Analizando Tu Perfil...</h2>
+                
+                <div class="analysis-bar">
+                    <div class="analysis-label">
+                        <span>Flujo Sanguíneo Cavernoso</span>
+                        <span id="status-1">⏳</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="bar-1"></div>
+                    </div>
+                </div>
+                
+                <div class="analysis-bar">
+                    <div class="analysis-label">
+                        <span>Densidad Tisular</span>
+                        <span id="status-2">⏳</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="bar-2"></div>
+                    </div>
+                </div>
+                
+                <div class="analysis-bar">
+                    <div class="analysis-label">
+                        <span>Compatibilidad Protocolo</span>
+                        <span id="status-3">⏳</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="bar-3"></div>
+                    </div>
+                </div>
+                
+                <div id="result-container" style="display:none;">
+                    <div class="result-box">
+                        <div class="result-label">🎉 TU POTENCIAL DE CRECIMIENTO:</div>
+                        <div class="result-number" id="growth-result">4-6cm</div>
+                        <div class="result-label">En hasta 30 días con el método</div>
+                    </div>
+                    
+                    <p style="text-align: center; color: #ccc; font-size: 14px; margin-bottom: 20px;">
+                        Basado en tu perfil, tienes un <strong style="color: var(--green);">potencial ALTO</strong>. El método Alpha fue hecho exactamente para tu caso!
+                    </p>
+                    
+                    <button class="btn" onclick="goToOffer()">🚀 QUIERO ALCANZAR ESTE RESULTADO</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 4: OFERTA -->
+        <div id="screen-4" class="screen">
+            <div class="card">
+                <div class="badge" style="display: block; text-align: center;">🔥 ACCESO LIBERADO</div>
+                
+                <h1 class="headline" style="text-align: center; font-size: 28px;">Transforma Tu Resultado en Realidad!</h1>
+                
+                <div class="price-box">
+                    <div class="old-price" style="font-size: 16px;">De $19.99 USD</div>
+                    <div class="new-price" style="font-size: 64px; line-height: 1;">$3.99 USD</div>
+                    <div class="economy" style="font-size: 15px;">💰 Ahorras $16.00 USD (80% OFF)</div>
+                </div>
+                
+                <div style="margin: 30px 0;">
+                    <div class="benefit"><span>✓</span> Aumento permanente 3-7cm</div>
+                    <div class="benefit"><span>✓</span> Resultados en 30 días</div>
+                    <div class="benefit"><span>✓</span> Control total de la eyaculación</div>
+                    <div class="benefit"><span>✓</span> Sin cirugías o aparatos</div>
+                    <div class="benefit"><span>✓</span> App Exclusiva</div>
+                </div>
+                
+                <!-- CARROSSEL ANTES/DEPOIS - VERSÃO 2 MELHORADA: UM CLIQUE LIBERA TODAS -->
+                <div class="carousel-container">
+                    <div class="carousel-title">📸 RESULTADOS REALES VERIFICADOS</div>
+                    <div id="unlock-message" style="text-align: center; color: #00ff00; font-size: 14px; font-weight: 900; margin-bottom: 15px; animation: pulse 2s infinite;">
+                        👆 TOCA PARA DESBLOQUEAR LAS 3 FOTOS
+                    </div>
+                    <div class="carousel" id="results-carousel">
+                        <div class="slide active">
+                            <div class="blurred-container" onclick="unlockAllPhotos()">
+                                <img class="carousel-img" src="https://i.ibb.co/YFjPy3zS/mea-Saa-Tba-Aaaaamh-D-i-LJzfk9u2-QO-ZC1.jpg" alt="Resultado verificado" style="filter: blur(20px); transition: filter 0.8s ease;">
+                                <div class="click-overlay unlock-overlay">
+                                    <div class="click-icon">🔓</div>
+                                    <div class="click-text">Toca para desbloquear</div>
+                                </div>
+                            </div>
+                            <div class="slide-caption">PACIENTE M. SOUZA: +5.8cm CONFIRMADO</div>
+                        </div>
+                        <div class="slide">
+                            <div class="blurred-container" onclick="unlockAllPhotos()">
+                                <img class="carousel-img" src="https://i.ibb.co/v6cyDsyd/55db78-0079baf30d6c485581fa2291d62c7d25-mv2.avif" alt="Resultado verificado" style="filter: blur(20px); transition: filter 0.8s ease;">
+                                <div class="click-overlay unlock-overlay">
+                                    <div class="click-icon">🔓</div>
+                                    <div class="click-text">Toca para desbloquear</div>
+                                </div>
+                            </div>
+                            <div class="slide-caption">PACIENTE R. OLIVEIRA: +4.9cm CONFIRMADO</div>
+                        </div>
+                        <div class="slide">
+                            <div class="blurred-container" onclick="unlockAllPhotos()">
+                                <img class="carousel-img" src="https://i.ibb.co/JRStgT6L/Whats-App-Image-2024-12-18-at-15-11-46-rcl53qv1p0gr5s3fzr30gvvchnyybvpbhth13gqhj4.jpg" alt="Resultado verificado" style="filter: blur(20px); transition: filter 0.8s ease;">
+                                <div class="click-overlay unlock-overlay">
+                                    <div class="click-icon">🔓</div>
+                                    <div class="click-text">Toca para desbloquear</div>
+                                </div>
+                            </div>
+                            <div class="slide-caption">PACIENTE L. SANTOS: +6.2cm CONFIRMADO</div>
+                        </div>
+                    </div>
+                    <div id="unlocked-message" style="display: none; text-align: center; color: #00ff00; font-size: 12px; font-weight: 700; margin-top: 10px;">
+                        ✅ FOTOS DESBLOQUEADAS - Carrusel girando
+                    </div>
+                </div>
+                
+                <div class="guarantee" style="font-size: 14px; padding: 12px;">
+                    🛡️ GARANTÍA INCONDICIONAL DE 30 DÍAS
+                </div>
+                
+                <button class="btn" onclick="checkout()" style="font-size: 19px; padding: 22px;">💳 GARANTIZAR ACCESO POR $3.99</button>
+                
+                <div class="testimonials-carousel" id="testimonials">
+                    <div class="testimonial-slide active">
+                        <div class="testimonial-quote">💬 "Aumenté 3cm en 6 semanas. ¡Mejor inversión!"</div>
+                        <div class="testimonial-author">@carlos_mx, 27 años</div>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-quote">💬 "Mi novia notó la diferencia en las primeras semanas 🔥"</div>
+                        <div class="testimonial-author">@miguel_co, 31 años</div>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-quote">💬 "Tenía 13cm, hoy tengo 16cm. ¡Cambió mi autoestima!"</div>
+                        <div class="testimonial-author">@diego_ar, 25 años</div>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-quote">💬 "Ahora duro lo que YO quiero. ¡Control total!"</div>
+                        <div class="testimonial-author">@juan_pe, 29 años</div>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-quote">💬 "¡Funcionó! No lo creí hasta ver los resultados. ¡Vale mucho!"</div>
+                        <div class="testimonial-author">@andres_cl, 26 años</div>
+                    </div>
+                </div>
+                
+                <div class="security-footer" style="margin-top: 12px;">
+                    🔒 Pago 100% seguro y discreto
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const app = initializeApp({
+            apiKey: "AIzaSyB-GPkmK_iNQuu_96NsWBEmnZA1LhiSRR4",
+            authDomain: "alytics-metodo-alpha.firebaseapp.com",
+            projectId: "alytics-metodo-alpha",
+            storageBucket: "alytics-metodo-alpha.firebasestorage.app",
+            messagingSenderId: "389989039442",
+            appId: "1:389989039442:web:e897945ffbfe52da210e8b"
+        });
+
+        const db = getFirestore(app);
+        let sid = localStorage.getItem('alpha_sid');
+        if (!sid) {
+            sid = 's_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('alpha_sid', sid);
+        }
+
+        // DETECTAR PAÍS LATAM (para dashboard)
+        let userCountry = localStorage.getItem('user_country') || 'OTHER';
+        
+        async function detectCountry() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                userCountry = data.country_code || 'OTHER';
+                localStorage.setItem('user_country', userCountry);
+            } catch (err) {
+                userCountry = 'OTHER';
+            }
+        }
+        detectCountry();
+
+        // QUIZ DE 8 PERGUNTAS (ESSENCIAIS)
+        const QUESTIONS = [
+            { 
+                id: 'tamanho', 
+                q: '📏 ¿Cuál es el tamaño de tu pene ERECTO?', 
+                o: ['Menos de 10cm', 'Entre 10-13cm', 'Entre 13-16cm', 'Más de 16cm'],
+                points: [10, 8, 5, 3]
+            },
+            { 
+                id: 'duracao', 
+                q: '⏱️ ¿Cuánto tiempo DURAS en la cama?', 
+                o: ['Menos de 3 minutos', 'Entre 3-7 minutos', 'Entre 7-15 minutos', 'Más de 15 minutos'],
+                points: [10, 7, 4, 2]
+            },
+            { 
+                id: 'satisfacao', 
+                q: '😔 ¿Cómo te sientes con tu desempeño?', 
+                o: ['Muy insatisfecho (ella se queja)', 'Insatisfecho (sé que puedo mejorar)', 'Aceptable (funciona pero quiero más)', 'Satisfecho (pero siempre se puede mejorar)'],
+                points: [10, 8, 6, 4]
+            },
+            { 
+                id: 'idade', 
+                q: '📅 ¿Cuál es tu edad?', 
+                o: ['18-25 años', '26-35 años', '36-45 años', '46+ años'],
+                points: [10, 8, 6, 5]
+            },
+            { 
+                id: 'alimentacao', 
+                q: '🍎 ¿Cómo está tu alimentación?', 
+                o: ['Muy saludable', 'Aceptable', 'Mala', 'Pésima'],
+                points: [10, 7, 4, 2]
+            },
+            { 
+                id: 'sono', 
+                q: '😴 ¿Cuántas horas duermes por noche?', 
+                o: ['7-9 horas (buena calidad)', '6-7 horas (despierto cansado)', '5-6 horas (duermo poco)', 'Menos de 5 horas'],
+                points: [10, 7, 4, 2]
+            },
+            { 
+                id: 'tentou', 
+                q: '💊 ¿Ya probaste algo antes?', 
+                o: ['Sim, não funcionou', 'Sim, funcionou pouco', 'Nunca tentei nada', 'Tentei várias coisas'],
+                points: [7, 8, 10, 5]
+            },
+            { 
+                id: 'prioridade', 
+                q: '🎯 Resolver isso é sua PRIORIDADE máxima?', 
+                o: ['Sim, urgente!', 'Sim, mas posso esperar', 'Apenas curiosidade', 'Não é prioridade'],
+                points: [10, 7, 4, 2]
+            }
+        ];
+
+        let currentQ = 0;
+        let answers = {};
+        let totalPoints = 0;
+
+        async function track(e, d = {}) { 
+            try { 
+                await updateDoc(doc(db, 'sessions', sid), { 
+                    [`events.${e}`]: serverTimestamp(), 
+                    lastActivity: serverTimestamp(), 
+                    ...d 
+                }); 
+            } catch (err) {} 
+        }
+
+        window.startQuiz = function() {
+            track('quiz_started');
+            showScreen(2);
+            renderQuestion();
+        };
+
+        function renderQuestion() {
+            const q = QUESTIONS[currentQ];
+            const progress = ((currentQ + 1) / QUESTIONS.length) * 100;
+            
+            document.getElementById('progress-text').innerText = `${Math.round(progress)}% COMPLETO`;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+            
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="question">${q.q}</div>
+                <div class="options">
+                    ${q.o.map((opt, idx) => `<button class="option-btn" onclick="selectAnswer(${idx}, '${opt.replace(/'/g, "\\'")}')">${opt}</button>`).join('')}
+                </div>
+            `;
+        }
+
+        window.selectAnswer = function(optionIndex, answer) {
+            const q = QUESTIONS[currentQ];
+            answers[q.id] = answer;
+            totalPoints += q.points[optionIndex];
+            
+            const progress = currentQ + 1;
+            
+            track('quiz_answer', { 
+                question: q.q,
+                answer: answer,
+                quizProgress: progress
+            });
+            
+            updateDoc(doc(db, 'sessions', sid), { quizProgress: progress });
+            
+            currentQ++;
+            
+            if (currentQ < QUESTIONS.length) {
+                renderQuestion();
+            } else {
+                track('quiz_completed', { totalScore: totalPoints });
+                showScreen(3);
+                startAnalysis();
+            }
+        };
+
+        function calculateResults() {
+            // Pontuação máxima: 80 pontos
+            let growth;
+            
+            if (totalPoints >= 65) growth = '5-7cm';
+            else if (totalPoints >= 50) growth = '4-6cm';
+            else if (totalPoints >= 35) growth = '3-5cm';
+            else if (totalPoints >= 20) growth = '2-4cm';
+            else growth = '2-3cm';
+            
+            return { growth };
+        }
+
+        function startAnalysis() {
+            let p1 = 0, p2 = 0, p3 = 0;
+            
+            // ANÁLISE SUPER RÁPIDA: 8 segundos total (SEM VÍDEO)
+            const totalSteps = 8;
+            let step = 0;
+            
+            const interval = setInterval(() => {
+                step++;
+                
+                if (step <= 3) {
+                    // Primeiros 3 segundos: barra 1
+                    p1 = (step / 3) * 100;
+                    document.getElementById('bar-1').style.width = p1 + '%';
+                    if (step === 3) {
+                        document.getElementById('bar-1').classList.add('complete');
+                        document.getElementById('status-1').innerText = '✅';
+                        document.getElementById('status-2').innerText = 'PROCESANDO';
+                    }
+                } else if (step <= 6) {
+                    // 3-6 segundos: barra 2
+                    p2 = ((step - 3) / 3) * 100;
+                    document.getElementById('bar-2').style.width = p2 + '%';
+                    if (step === 6) {
+                        document.getElementById('bar-2').classList.add('complete');
+                        document.getElementById('status-2').innerText = '✅';
+                        document.getElementById('status-3').innerText = 'PROCESANDO';
+                    }
+                } else if (step <= 8) {
+                    // 6-8 segundos: barra 3
+                    p3 = ((step - 6) / 2) * 100;
+                    document.getElementById('bar-3').style.width = p3 + '%';
+                    if (step === 8) {
+                        document.getElementById('bar-3').classList.add('complete');
+                        document.getElementById('status-3').innerText = '✅';
+                        
+                        clearInterval(interval);
+                        
+                        // Mostra resultado após 8 segundos
+                        setTimeout(() => {
+                            const results = calculateResults();
+                            document.getElementById('growth-result').innerText = results.growth;
+                            document.getElementById('result-container').style.display = 'block';
+                            track('result_shown', { growthPotential: results.growth, score: totalPoints });
+                        }, 300);
+                    }
+                }
+            }, 1000);
+        }
+
+        window.goToOffer = function() {
+            track('offer_viewed');
+            showScreen(4);
+            
+            // Inicia carrossel de depoimentos
+            startTestimonialsCarousel();
+            
+            // Inicia carrossel de antes/depois
+            startResultsCarousel();
+        };
+
+        function startTestimonialsCarousel() {
+            const slides = document.querySelectorAll('.testimonial-slide');
+            let currentSlide = 0;
+            
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 4000); // Troca a cada 4 segundos
+        }
+
+        function startResultsCarousel() {
+            const slides = document.querySelectorAll('#results-carousel .slide');
+            let currentSlide = 0;
+            
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 2500); // 2.5 segundos - sweet spot entre rápido e visível
+        }
+
+        // Função que DESBLOQUEIA TODAS as fotos com 1 clique
+        let photosUnlocked = false;
+        
+        window.unlockAllPhotos = function() {
+            if (photosUnlocked) return; // Já desbloqueou, não faz nada
+            
+            photosUnlocked = true;
+            
+            // Pega todas as imagens do carrossel
+            const allImages = document.querySelectorAll('.carousel-img');
+            const allOverlays = document.querySelectorAll('.unlock-overlay');
+            const unlockMessage = document.getElementById('unlock-message');
+            const unlockedMessage = document.getElementById('unlocked-message');
+            
+            // Remove blur de TODAS as fotos com animação
+            allImages.forEach((img, index) => {
+                setTimeout(() => {
+                    img.style.filter = 'blur(0px)';
+                    img.style.transform = 'scale(1.02)';
+                }, index * 200); // Efeito cascata suave
+            });
+            
+            // Esconde todos os overlays
+            allOverlays.forEach((overlay, index) => {
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                    }, 300);
+                }, index * 200);
+            });
+            
+            // Atualiza mensagens
+            unlockMessage.style.display = 'none';
+            unlockedMessage.style.display = 'block';
+            
+            // Tracking
+            track('all_photos_unlocked', { timestamp: Date.now() });
+        };
+
+        window.checkout = function() {
+            track('checkout');
+            window.location.href = `https://pay.hotmart.com/A101292455I?checkoutMode=10&bid=1771246772174&sck=${sid}`;
+        };
+
+        function showScreen(num) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${num}`).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        async function init() {
+            try {
+                await setDoc(doc(db, 'sessions', sid), {
+                    sessionId: sid,
+                    enteredAt: serverTimestamp(),
+                    lastActivity: serverTimestamp(),
+                    currentStep: 'hook',
+                    status: 'active',
+                    source: 'tiktok_latam',
+                    country: userCountry,
+                    quizProgress: 0,
+                    events: {},
+                    answers: {},
+                    conversion: { clickedCheckout: false }
+                });
+            } catch (err) {}
+        }
+
+        init();
+    </script>
+</body>
+</html>
