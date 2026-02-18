@@ -70,12 +70,6 @@
         .benefit { display: flex; align-items: center; margin-bottom: 15px; font-size: 16px; font-weight: 800; }
         .benefit span { color: var(--green); margin-right: 12px; font-size: 20px; }
         
-        .price-box { background: rgba(239, 68, 68, 0.1); border: 2px solid var(--primary); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; }
-        .old-price { font-size: 18px; color: #999; text-decoration: line-through; }
-        .new-price { font-size: 48px; font-weight: 900; color: var(--green); margin: 10px 0; }
-        .economy { font-size: 14px; color: var(--green); font-weight: 700; margin-top: 5px; }
-        .comparison { font-size: 13px; color: #999; margin-top: 10px; }
-        
         .guarantee { background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); padding: 15px; border-radius: 12px; text-align: center; margin: 20px 0; font-weight: 700; color: var(--green); }
         
         .social-proof { background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 12px; margin: 20px 0; font-size: 13px; line-height: 1.6; }
@@ -88,7 +82,7 @@
         
         .security-footer { font-size: 11px; margin-top: 15px; color: #999; font-weight: 700; text-align: center; }
         
-        /* Carrossel Antes/Depois - VERSÃO 1: MODAL */
+        /* Carrossel Antes/Depois */
         .carousel-container { background: rgba(0, 255, 0, 0.05); border: 2px solid rgba(0, 255, 0, 0.3); border-radius: 16px; padding: 25px; margin: 25px 0; }
         .carousel-title { color: #00ff00; font-size: 16px; font-weight: 900; text-align: center; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
         .carousel { width: 100%; height: 280px; background: #000; border-radius: 15px; overflow: hidden; position: relative; border: 2px solid #333; }
@@ -107,31 +101,12 @@
         
         .click-text { color: #00ff00; font-size: 16px; font-weight: 900; text-transform: uppercase; text-align: center; text-shadow: 0 0 10px rgba(0, 255, 0, 0.5); letter-spacing: 1px; }
         
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-        
         .slide-caption { position: absolute; bottom: 15px; left: 15px; right: 15px; background: rgba(0, 0, 0, 0.9); padding: 12px; border-radius: 10px; font-size: 13px; font-weight: 900; color: #00ff00; border: 2px solid rgba(0, 255, 0, 0.5); text-align: center; z-index: 10; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        /* Modal */
-        .image-modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); }
-        .image-modal.active { display: flex; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        .modal-content { max-width: 600px; width: 100%; background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); border: 3px solid #00ff00; border-radius: 16px; padding: 25px; position: relative; animation: slideUp 0.4s; box-shadow: 0 0 50px rgba(0, 255, 0, 0.5); }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        .modal-close { position: absolute; top: 10px; right: 20px; font-size: 40px; color: #fff; cursor: pointer; z-index: 10; line-height: 1; transition: all 0.3s; }
-        .modal-close:hover { color: #ff3333; transform: rotate(90deg); }
-        
-        .modal-image { width: 100%; border-radius: 12px; margin-bottom: 15px; border: 2px solid #333; }
-        
-        .modal-info { text-align: center; color: #fff; font-size: 14px; line-height: 1.8; padding: 15px; background: rgba(0, 255, 0, 0.05); border-radius: 10px; border: 1px solid rgba(0, 255, 0, 0.3); }
-        .modal-info strong { color: #00ff00; font-size: 16px; display: block; margin-bottom: 8px; }
-        .modal-verified { display: inline-block; background: #00ff00; color: #000; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 900; margin-top: 8px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- TELA 1: GANCHO DIRETO (SEM VSL) -->
+        <!-- TELA 1: GANCHO DIRETO -->
         <div id="screen-1" class="screen active">
             <div class="card">
                 <div class="badge" style="display: block; text-align: center;">⚡ MÉTODO VALIDADO POR +50 MIL HOMBRES</div>
@@ -149,8 +124,9 @@
                         <div class="stat-number">4.9★</div>
                         <div class="stat-label">Calificación</div>
                     </div>
+                    <!-- ✅ ALTERADO: Removido "$3.99 USD" → "Acceso Exclusivo" -->
                     <div class="stat-box">
-                        <div class="stat-number">$3.99 USD</div>
+                        <div class="stat-number" style="font-size: 13px; line-height: 1.3;">ACCESO<br>EXCLUSIVO</div>
                         <div class="stat-label">Solo Hoy</div>
                     </div>
                 </div>
@@ -183,7 +159,7 @@
             </div>
         </div>
 
-        <!-- TELA 3: ANÁLISE (SEM VÍDEO - OTIMIZADO LATAM) -->
+        <!-- TELA 3: ANÁLISE -->
         <div id="screen-3" class="screen">
             <div class="card">
                 <div class="badge">🔬 Procesando tus datos</div>
@@ -237,30 +213,29 @@
         </div>
 
         <!-- TELA 4: OFERTA -->
+        <!-- ✅ ALTERADO: Caixa de preço removida, botão vai direto pro checkout -->
         <div id="screen-4" class="screen">
             <div class="card">
-                <div class="badge" style="display: block; text-align: center;">🔥 ACCESO LIBERADO</div>
+                <div class="badge" style="display: block; text-align: center;">🔥 ACCESO LIBERADO PARA TI</div>
                 
                 <h1 class="headline" style="text-align: center; font-size: 28px;">Transforma Tu Resultado en Realidad!</h1>
-                
-                <div class="price-box">
-                    <div class="old-price" style="font-size: 16px;">De $19.99 USD</div>
-                    <div class="new-price" style="font-size: 64px; line-height: 1;">$3.99 USD</div>
-                    <div class="economy" style="font-size: 15px;">💰 Ahorras $16.00 USD (80% OFF)</div>
-                </div>
+
+                <p style="text-align: center; color: #aaa; font-size: 15px; margin-bottom: 25px; line-height: 1.5;">
+                    Tu perfil fue analizado. El Protocolo Hercules está <strong style="color: var(--green);">100% compatível</strong> con tu caso.
+                </p>
                 
                 <div style="margin: 30px 0;">
                     <div class="benefit"><span>✓</span> Aumento permanente 3-7cm</div>
                     <div class="benefit"><span>✓</span> Resultados en 30 días</div>
                     <div class="benefit"><span>✓</span> Control total de la eyaculación</div>
                     <div class="benefit"><span>✓</span> Sin cirugías o aparatos</div>
-                    <div class="benefit"><span>✓</span> App Exclusiva</div>
+                    <div class="benefit"><span>✓</span> App Exclusiva incluida</div>
                 </div>
                 
-                <!-- CARROSSEL ANTES/DEPOIS - VERSÃO 2 MELHORADA: UM CLIQUE LIBERA TODAS -->
+                <!-- CARROSSEL ANTES/DEPOIS -->
                 <div class="carousel-container">
                     <div class="carousel-title">📸 RESULTADOS REALES VERIFICADOS</div>
-                    <div id="unlock-message" style="text-align: center; color: #00ff00; font-size: 14px; font-weight: 900; margin-bottom: 15px; animation: pulse 2s infinite;">
+                    <div id="unlock-message" style="text-align: center; color: #00ff00; font-size: 14px; font-weight: 900; margin-bottom: 15px; animation: pulseIcon 2s infinite;">
                         👆 TOCA PARA DESBLOQUEAR LAS 3 FOTOS
                     </div>
                     <div class="carousel" id="results-carousel">
@@ -286,7 +261,7 @@
                         </div>
                         <div class="slide">
                             <div class="blurred-container" onclick="unlockAllPhotos()">
-                                <img class="carousel-img" src="https://i.ibb.co/JRStgT6L/Whats-App-Image-2024-12-18-at-15-11-46-rcl53qv1p0gr5s3fzr30gvvchnyybvpbhth13gqhj4.jpg" alt="Resultado verificado" style="filter: blur(20px); transition: filter 0.8s ease;">
+                                <img class="carousel-img" src="https://i.ibb.co/JRStgT6L/Whats-App-Image-2024-12-18-at-15-11-46-rcl53qv1p0gr5r30gvvchnyybvpbhth13gqhj4.jpg" alt="Resultado verificado" style="filter: blur(20px); transition: filter 0.8s ease;">
                                 <div class="click-overlay unlock-overlay">
                                     <div class="click-icon">🔓</div>
                                     <div class="click-text">Toca para desbloquear</div>
@@ -304,7 +279,10 @@
                     🛡️ GARANTÍA INCONDICIONAL DE 30 DÍAS
                 </div>
                 
-                <button class="btn" onclick="checkout()" style="font-size: 19px; padding: 22px;">💳 GARANTIZAR ACCESO POR $3.99</button>
+                <!-- ✅ ALTERADO: Botão sem preço, vai direto pro checkout -->
+                <button class="btn" onclick="checkout()" style="font-size: 19px; padding: 22px;">
+                    🚀 GARANTIZAR MI ACCESO AHORA
+                </button>
                 
                 <div class="testimonials-carousel" id="testimonials">
                     <div class="testimonial-slide active">
@@ -340,10 +318,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, doc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // ========================================
-        // 🔥 FIREBASE - PROTOCOLO HERCULES
-        // ========================================
-        
         const app = initializeApp({
             apiKey: "AIzaSyDk4wUGAeG4uQW7Rmad59AmuzqKiOYB9vk",
             authDomain: "protocolo-hercules.firebaseapp.com",
@@ -360,7 +334,6 @@
             localStorage.setItem('alpha_sid', sid);
         }
 
-        // DETECTAR PAÍS LATAM (para dashboard)
         let userCountry = localStorage.getItem('user_country') || 'OTHER';
         
         async function detectCountry() {
@@ -375,7 +348,6 @@
         }
         detectCountry();
 
-        // QUIZ DE 8 PERGUNTAS (ESSENCIAIS)
         const QUESTIONS = [
             { 
                 id: 'tamanho', 
@@ -489,22 +461,17 @@
         };
 
         function calculateResults() {
-            // Pontuação máxima: 80 pontos
             let growth;
-            
             if (totalPoints >= 65) growth = '5-7cm';
             else if (totalPoints >= 50) growth = '4-6cm';
             else if (totalPoints >= 35) growth = '3-5cm';
             else if (totalPoints >= 20) growth = '2-4cm';
             else growth = '2-3cm';
-            
             return { growth };
         }
 
         function startAnalysis() {
             let p1 = 0, p2 = 0, p3 = 0;
-            
-            // ANÁLISE SUPER RÁPIDA: 8 segundos total (SEM VÍDEO)
             const totalSteps = 8;
             let step = 0;
             
@@ -512,7 +479,6 @@
                 step++;
                 
                 if (step <= 3) {
-                    // Primeiros 3 segundos: barra 1
                     p1 = (step / 3) * 100;
                     document.getElementById('bar-1').style.width = p1 + '%';
                     if (step === 3) {
@@ -521,7 +487,6 @@
                         document.getElementById('status-2').innerText = 'PROCESANDO';
                     }
                 } else if (step <= 6) {
-                    // 3-6 segundos: barra 2
                     p2 = ((step - 3) / 3) * 100;
                     document.getElementById('bar-2').style.width = p2 + '%';
                     if (step === 6) {
@@ -530,16 +495,12 @@
                         document.getElementById('status-3').innerText = 'PROCESANDO';
                     }
                 } else if (step <= 8) {
-                    // 6-8 segundos: barra 3
                     p3 = ((step - 6) / 2) * 100;
                     document.getElementById('bar-3').style.width = p3 + '%';
                     if (step === 8) {
                         document.getElementById('bar-3').classList.add('complete');
                         document.getElementById('status-3').innerText = '✅';
-                        
                         clearInterval(interval);
-                        
-                        // Mostra resultado após 8 segundos
                         setTimeout(() => {
                             const results = calculateResults();
                             document.getElementById('growth-result').innerText = results.growth;
@@ -554,76 +515,61 @@
         window.goToOffer = function() {
             track('offer_viewed');
             showScreen(4);
-            
-            // Inicia carrossel de depoimentos
             startTestimonialsCarousel();
-            
-            // Inicia carrossel de antes/depois
             startResultsCarousel();
         };
 
         function startTestimonialsCarousel() {
             const slides = document.querySelectorAll('.testimonial-slide');
             let currentSlide = 0;
-            
             setInterval(() => {
                 slides[currentSlide].classList.remove('active');
                 currentSlide = (currentSlide + 1) % slides.length;
                 slides[currentSlide].classList.add('active');
-            }, 4000); // Troca a cada 4 segundos
+            }, 4000);
         }
 
         function startResultsCarousel() {
             const slides = document.querySelectorAll('#results-carousel .slide');
             let currentSlide = 0;
-            
             setInterval(() => {
                 slides[currentSlide].classList.remove('active');
                 currentSlide = (currentSlide + 1) % slides.length;
                 slides[currentSlide].classList.add('active');
-            }, 2500); // 2.5 segundos - sweet spot entre rápido e visível
+            }, 2500);
         }
 
-        // Função que DESBLOQUEIA TODAS as fotos com 1 clique
         let photosUnlocked = false;
         
         window.unlockAllPhotos = function() {
-            if (photosUnlocked) return; // Já desbloqueou, não faz nada
-            
+            if (photosUnlocked) return;
             photosUnlocked = true;
             
-            // Pega todas as imagens do carrossel
             const allImages = document.querySelectorAll('.carousel-img');
             const allOverlays = document.querySelectorAll('.unlock-overlay');
             const unlockMessage = document.getElementById('unlock-message');
             const unlockedMessage = document.getElementById('unlocked-message');
             
-            // Remove blur de TODAS as fotos com animação
             allImages.forEach((img, index) => {
                 setTimeout(() => {
                     img.style.filter = 'blur(0px)';
                     img.style.transform = 'scale(1.02)';
-                }, index * 200); // Efeito cascata suave
-            });
-            
-            // Esconde todos os overlays
-            allOverlays.forEach((overlay, index) => {
-                setTimeout(() => {
-                    overlay.style.opacity = '0';
-                    setTimeout(() => {
-                        overlay.style.display = 'none';
-                    }, 300);
                 }, index * 200);
             });
             
-            // Atualiza mensagens
+            allOverlays.forEach((overlay, index) => {
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => { overlay.style.display = 'none'; }, 300);
+                }, index * 200);
+            });
+            
             unlockMessage.style.display = 'none';
             unlockedMessage.style.display = 'block';
-            
-            // Tracking
             track('all_photos_unlocked', { timestamp: Date.now() });
         };
 
+        // ✅ ALTERADO: checkout vai direto, sem preço na URL visível ao usuário
         window.checkout = function() {
             track('checkout');
             window.location.href = `https://pay.hotmart.com/A101292455I?checkoutMode=10&bid=1771246772174&sck=${sid}`;
